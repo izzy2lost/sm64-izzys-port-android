@@ -3,7 +3,7 @@
 1. Get termux from f-droid https://f-droid.org/packages/com.termux/
 
 2. Install termux and run the commands:
-   ```pkg update and then pkg upgrade```
+   ```pkg update``` & ```pkg upgrade```
 
 You will get the following message multiple times:
 ![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/4b40f690-143d-41ac-90f3-9cc543a856ff)
