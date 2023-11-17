@@ -10,8 +10,8 @@ You will get the following message multiple times:
 
 Press the capital I followed by enter each time it asks you.
 
-3. Add the following repo.
-   pkg install x11-repo
+3. Add the following repo:
+   <pkg install x11-repo>
 
 4. 
 
