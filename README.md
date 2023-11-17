@@ -94,3 +94,5 @@ Press the button in the lower right to copy the rom into the folder. Make sure o
 11. I'm going to add the DynOS patch. This & the 60fps patch above are optional. On lower end devices they may cause some performance issues. This DynOs patch is required to add model packs to the game. It also adds some options like warping to levels. You can access this menu by pressing start to pause the game. Press the Z button which is normally L2 on your controller.
 
     ```tools/apply_patch.sh enhancements/DynOS.1.0.patch```
+
+*You will be unable to add mods unless you have access to the Android/data/com.vdavid003.sm64port/files folder. I will show you ways to access the data files, even on the newer android versions.*
