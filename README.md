@@ -80,7 +80,9 @@ Press the button in the lower right to copy the rom into the folder. Make sure o
 ![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/00e3c958-2561-4ab1-b51e-04365499e396)
 
 8. Download SDL requirements:
+   
    ```./getSDL.sh```
 
 9. Make the audio file:
+    
    ```make -j $(nproc) -C tools/audiofile```
