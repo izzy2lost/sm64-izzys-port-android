@@ -14,25 +14,27 @@ Press the capital I followed by enter each time it asks you.
    
    ```pkg install x11-repo```
    
-5. Give Termux storage access:
+4. Give Termux storage access:
    
    ```termux-setup-storage```
    
    Click allow if a popup comes up.
    
-7. Install the following:
+5. Install the following:
    
    ```pkg install mesa-dev binutils git wget make python getconf zip apksigner clang```
 
-8. Clone this repo:
+6. Clone this repo:
 
    ```git clone https://github.com/izzy2fancy/sm64-izzys-port-android```
 
-9. Now we need to put your Super Mario US rom in the root of the sm64-izzys-port-android folder. Which is inside Termux. The rom needs to be named "baserom.us.z64" We could use command prompt, but in this example we are going to use Material Files app to get access to Termux files.
+7. Now we need to put your Super Mario US rom in the root of the "sm64-izzys-port-android" folder. Which is inside Termux. The rom needs to be named "baserom.us.z64" We could use command prompt, but in this example we are going to use the Material Files app to get access to the Termux files.
 
-    Get the Material Files app below:
+    Get the Material Files app from:
 
 https://play.google.com/store/apps/details?id=me.zhanghai.android.files
+
+
 
 
 
