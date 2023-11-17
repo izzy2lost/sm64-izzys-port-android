@@ -63,9 +63,15 @@ Click allow.
 
 ![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/de93725b-5f98-404a-8844-f527325fba85)
 
+There is now a Home button where the Termux Files are.
+
 ![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/77b74f62-0480-48f3-a395-69fab1598d47)
 
+Find your baserom.us.rom and copy it.
+
 ![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/6a64efc9-8bd2-4b38-bbbe-2db163c62b12)
+
+Press the home button you created earlier.
 
 ![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/0dab6c82-66c5-420f-9bbe-79447a7cfc9f)
 
