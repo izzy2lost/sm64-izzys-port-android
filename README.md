@@ -28,7 +28,12 @@ Press the capital I followed by enter each time it asks you.
 
    ```git clone https://github.com/izzy2fancy/sm64-izzys-port-android```
 
-9. 
+9. Now we need to put your Super Mario US rom in the root of the sm64-izzys-port-android folder. Which is inside Termux. The rom needs to be named "baserom.us.z64" We could use command prompt, but in this example we are going to use Material Files app to get access to Termux files.
+
+    Get the Material Files app below:
+
+https://play.google.com/store/apps/details?id=me.zhanghai.android.files
+
 
 
 
