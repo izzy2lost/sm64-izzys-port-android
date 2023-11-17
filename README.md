@@ -132,4 +132,9 @@ Press the button in the lower right to copy the rom into the folder. Make sure o
     If you get an error during the build enter ```make clean``` followed by just ```make```
 
     If you have built with external data you have to put the base.zip in the /sdcard/Android/data/com.vdavid003.sm64port/files/res/ folder. You can find the base.zip with the Material Files app in home/sm64-izzys-port-android/build/us_pc/res/
-    
+
+15. You can find the finshed apk in the home/sm64-izzys-port-android/build/us_pc folder. It is called sm64.us.f3dex2e.apk
+
+16. You can use the Material Files app again and install it. You'll have to grant permission to let the app install unknown applications.
+
+17. To access the data folder for external data, DynOs models and texture packs. You can use a combination of different file explorer apps. Some suggestions are the app simply called Files, FV File Explorer or CX File Explorer.
