@@ -25,11 +25,9 @@ Press the capital I followed by enter each time it asks you.
 
 7. Do the following just in case:
    
-   ```pkg remove libglvnd
-pkg install git wget make python getconf zip \
-apksigner clang binutils libglvnd-dev aapt which```
+   ```pkg remove libglvnd```
 
-7. 
+8. 
 
 
 
