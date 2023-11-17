@@ -46,3 +46,5 @@ https://play.google.com/store/apps/details?id=me.zhanghai.android.files
 
 ![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/de93725b-5f98-404a-8844-f527325fba85)
 
+![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/77b74f62-0480-48f3-a395-69fab1598d47)
+
