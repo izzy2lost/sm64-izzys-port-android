@@ -1,7 +1,8 @@
-# SM64EX Android Port
-This is fork of [VDavid003's port](https://github.com/VDavid003/sm64-port-android/tree/ex/nightly). My goal is to use this repo to fix a few issues and maybe add a few features.
-## Building on an Android device
-Use the helper script found here: [https://samutz.com/sm64/](https://samutz.com/sm64/)  
-Or use the manual instructions found here: [Building Super Mario 64 on Android](https://samutz.com/docs/books/video-games/page/building-super-mario-64-on-android)
+*****Note that termux only makes a build based off the device it's made with. So a 32 bit device will only make a build compatible with 32 bit. The same with a 64 bit device. It will only make a 64 bit compatible build*****
 
-If you want to build SM64EX for Android on PC use [VDavid003's base repo](https://github.com/VDavid003/sm64-port-android-base) instead!
+1. Get termux from f-droid https://f-droid.org/packages/com.termux/
+
+2. Install termux and run the commands:
+   pkg update and then pkg upgrade
+
+You will get the following message multiple times:
