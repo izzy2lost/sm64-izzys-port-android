@@ -100,3 +100,29 @@ Press the button in the lower right to copy the rom into the folder. Make sure o
     ```tools/apply_patch.sh enhancements/DynOS.1.0.patch```
 
 *You will be unable to add mods unless you have access to the Android/data/com.vdavid003.sm64port/files folder. I will show you ways to access the data files, even on the newer android versions.*
+
+13. Pick your build options. These options may cause performance issues, especially if you plan to add a texture pack. If your phone isn't powerful enough it might run poorly or not at all. The options are below:
+
+    TOUCH_CONTROLS
+    EXT_OPTIONS_MENU
+    BETTERCAMERA
+    TEXTURE_FIX
+    NODRAWINGDISTANCE
+    EXTERNAL_DATA
+    
+    *Do not enable EXTERNAL_DATA if you don't have access to the data folder*
+
+    To enable an option put =1 or disable put =0
+
+    Here's an example build:
+
+    ```make -j $(nproc) TOUCH_CONTROLS=1 BETTERCAMERA=1 NODRAWINGDISTANCE=1 TEXTURE_FIX=1 EXT_OPTIONS_MENU=1 EXTERNAL_DATA=1```
+
+    *Remember to disable any you don't want by changing it to 0*
+
+    14. Now start the build with the commands you made above.
+
+        *If you get an error during the build enter ```make clean``` followes by just ```make```*
+
+        *If you have built with extrnal data you have to put the base.zip in the /sdcard/Android/data/com.vdavid003.sm64port/files/res/ folder. You can find the base.zip with the Material Files app in home/sm64-izzys-port-android/build/us_pc/res/*
+    
