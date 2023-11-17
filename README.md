@@ -29,6 +29,13 @@ Press the capital I followed by enter each time it asks you.
    
    ```pkg install mesa-dev binutils git wget make python getconf zip apksigner clang```
 
+Also do this as it fixes some things:
+
+```pkg remove libglvnd```
+
+```pkg install git wget make python getconf zip \
+apksigner clang binutils libglvnd-dev aapt which```
+
 6. Clone this repo:
 
    ```git clone https://github.com/izzy2fancy/sm64-izzys-port-android```
