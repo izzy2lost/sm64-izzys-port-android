@@ -1,8 +1,13 @@
 *****Note that termux only makes a build based off the device it's made with. So a 32 bit device will only make a build compatible with 32 bit. The same with a 64 bit device. It will only make a 64 bit compatible build*****
 
-1. Get termux from f-droid https://f-droid.org/packages/com.termux/
+1. Get termux from f-droid:
+   <a href="https://f-droid.org/packages/com.termux/">
+    <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+    alt="Get it on F-Droid"
+    height="80">
+</a>
 
-2. Install termux and run the commands:
+3. Install termux and run the commands:
    ```pkg update``` & ```pkg upgrade```
 
 You will get the following message multiple times:
