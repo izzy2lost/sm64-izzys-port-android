@@ -7,7 +7,10 @@
 
 You will get the following message multiple times:
 ![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/4b40f690-143d-41ac-90f3-9cc543a856ff)
-Press I then enter each time.
+
+Press the capital I followed by enter each time it asks you.
+
+
 
 
 
