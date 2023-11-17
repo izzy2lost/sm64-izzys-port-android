@@ -43,11 +43,11 @@ Allow the permissions and press the menu button on top left.
 
 ![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/2896f300-3bcb-42e0-97b5-316fc8152354)
 
-Click add storage.
+Click Add storage.
 
 ![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/7bb03db5-ea09-4c43-9602-f6df39a95e1a)
 
-Click on external storage.
+Click on External storage.
 
 ![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/84ccb53c-19be-4843-9200-e1a1745908f5)
 
