@@ -33,7 +33,11 @@ Press the capital I followed by enter each time it asks you.
 
    ```git clone https://github.com/izzy2fancy/sm64-izzys-port-android```
 
-7. Now we need to put your Super Mario US rom in the root of the "sm64-izzys-port-android" folder. Which is inside Termux. The rom needs to be named "baserom.us.z64" We could use command prompt, but in this example we are going to use the Material Files app to get access to the Termux files.
+7. Change to the new folder:
+
+   ```cd sm64-izzys-port-android```
+
+8. Now we need to put your Super Mario US rom in the root of the "sm64-izzys-port-android" folder. Which is inside Termux. The rom needs to be named "baserom.us.z64" We could use command prompt, but in this example we are going to use the Material Files app to get access to the Termux files.
 
     Get the Material Files app below:
 
@@ -79,19 +83,19 @@ Press the button in the lower right to copy the rom into the folder. Make sure o
 
 ![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/00e3c958-2561-4ab1-b51e-04365499e396)
 
-8. Download SDL requirements:
+9. Download SDL requirements:
    
    ```./getSDL.sh```
 
-9. Make the audio file:
+10. Make the audio file:
     
    ```make -j $(nproc) -C tools/audiofile```
 
-10. Now we can add the 60fps patch:
+11. Now we can add the 60fps patch:
 
     ```tools/apply_patch.sh enhancements/60fps_ex.patch```
 
-11. I'm going to add the DynOS patch. This & the 60fps patch above are optional. On lower end devices they may cause some performance issues. This DynOs patch is required to add model packs to the game. It also adds some options like warping to levels. You can access this menu by pressing start to pause the game. Press the Z button which is normally L2 on your controller.
+12. I'm going to add the DynOS patch. This & the 60fps patch above are optional. On lower end devices they may cause some performance issues. This DynOs patch is required to add model packs to the game. It also adds some options like warping to levels. You can access this menu by pressing start to pause the game. Press the Z button which is normally L2 on your controller.
 
     ```tools/apply_patch.sh enhancements/DynOS.1.0.patch```
 
