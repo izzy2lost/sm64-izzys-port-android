@@ -17,17 +17,18 @@ Press the capital I followed by enter each time it asks you.
 5. Give Termux storage access:
    
    ```termux-setup-storage```
+   
    Click allow if a popup comes up.
    
-6. Install the following:
+7. Install the following:
    
    ```pkg install mesa mesa-dev binutils git wget make python getconf zip apksigner clang```
 
-7. Do the following just in case:
+8. Do the following just in case:
    
    ```pkg remove libglvnd```
 
-8. 
+9. 
 
 
 
