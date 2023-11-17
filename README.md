@@ -11,16 +11,20 @@ You will get the following message multiple times:
 Press the capital I followed by enter each time it asks you.
 
 3. Add the following repo:
+   
    ```pkg install x11-repo```
    
-4. Give Termux storage access:
+5. Give Termux storage access:
+   
    ```termux-setup-storage```
    Click allow if a popup comes up.
    
-5. Install the following:
+6. Install the following:
+   
    ```pkg install mesa mesa-dev binutils git wget make python getconf zip apksigner clang```
 
-6. Do the following just in case:
+7. Do the following just in case:
+   
    ```pkg remove libglvnd
 pkg install git wget make python getconf zip \
 apksigner clang binutils libglvnd-dev aapt which```
