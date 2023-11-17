@@ -120,7 +120,7 @@ Press the button in the lower right to copy the rom into the folder. Make sure o
 
     *Remember to disable any you don't want by changing it to 0*
 
-    14. Now start the build with the commands you made above.
+14. Now start the build with the commands you made above.
 
         *If you get an error during the build enter ```make clean``` followes by just ```make```*
 
