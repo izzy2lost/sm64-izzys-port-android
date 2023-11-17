@@ -6,3 +6,6 @@
    pkg update and then pkg upgrade
 
 You will get the following message multiple times:
+
+Screenshot_20231117-002056.png
+
