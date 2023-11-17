@@ -86,3 +86,7 @@ Press the button in the lower right to copy the rom into the folder. Make sure o
 9. Make the audio file:
     
    ```make -j $(nproc) -C tools/audiofile```
+
+10. Now we can add the 60fps patch:
+
+    ```tools/apply_patch.sh enhancements/60fps_ex.patch```
