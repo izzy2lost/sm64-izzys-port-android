@@ -90,3 +90,7 @@ Press the button in the lower right to copy the rom into the folder. Make sure o
 10. Now we can add the 60fps patch:
 
     ```tools/apply_patch.sh enhancements/60fps_ex.patch```
+
+11. I'm going to add the DynOS patch. This & the 60fps patch above are optional. On lower end devices they may cause some performance issues. This DynOs patch is required to add model packs to the game. It also adds some options like warping to levels. You can access this menu by pressing start to pause the game. Then clicking R1 to bring up the menu. Press the Z button which is normally L2 on your controller.
+
+    ```tools/apply_patch.sh enhancements/DynOS.1.0.patch```
