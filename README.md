@@ -43,7 +43,7 @@ Allow the permissions and press the menu button on top left.
 
 ![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/2896f300-3bcb-42e0-97b5-316fc8152354)
 
-Click to add storage.
+Click add storage.
 
 ![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/7bb03db5-ea09-4c43-9602-f6df39a95e1a)
 
@@ -59,11 +59,11 @@ Press USE THIS FOLDER at the bottom.
 
 ![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/f0c39c97-c562-44f9-9ec9-7d3d503ef6f6)
 
-Click allow.
+Click ALLOW.
 
 ![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/de93725b-5f98-404a-8844-f527325fba85)
 
-There is now a Home button where the Termux Files are.
+There is now a home button where the Termux Files are.
 
 ![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/77b74f62-0480-48f3-a395-69fab1598d47)
 
@@ -71,7 +71,7 @@ Find your baserom.us.z64 and copy it.
 
 ![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/6a64efc9-8bd2-4b38-bbbe-2db163c62b12)
 
-Press the home button you created earlier. Find the "sm64-izzys-port-android" and click on it.
+Press the home button you created earlier. Find the "sm64-izzys-port-android" folder and click on it.
 
 ![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/0dab6c82-66c5-420f-9bbe-79447a7cfc9f)
 
