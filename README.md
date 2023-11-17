@@ -32,7 +32,7 @@ Press the capital I followed by enter each time it asks you.
 
     Get the Material Files app from:
 
-https://play.google.com/store/apps/details?id=me.zhanghai.android.files
+<a href='https://play.google.com/store/apps/details?id=me.zhanghai.android.files&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 
 ![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/2896f300-3bcb-42e0-97b5-316fc8152354)
 
