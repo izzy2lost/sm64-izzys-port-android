@@ -122,7 +122,7 @@ Press the button in the lower right to copy the rom into the folder. Make sure o
 
 14. Now start the build with the commands you made above.
 
-        *If you get an error during the build enter ```make clean``` followes by just ```make```*
+    If you get an error during the build enter ```make clean``` followes by just ```make```
 
-        If you have built with extrnal data you have to put the base.zip in the /sdcard/Android/data/com.vdavid003.sm64port/files/res/ folder. You can find the base.zip with the Material Files app in home/sm64-izzys-port-android/build/us_pc/res/
+    If you have built with extrnal data you have to put the base.zip in the /sdcard/Android/data/com.vdavid003.sm64port/files/res/ folder. You can find the base.zip with the Material Files app in home/sm64-izzys-port-android/build/us_pc/res/
     
