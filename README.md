@@ -28,7 +28,11 @@ Press the capital I followed by enter each time it asks you.
    
    ```pkg remove libglvnd```
 
-9. 
+9. Clone this repo:
+
+   ```git clone https://github.com/izzy2fancy/sm64-izzys-port-android```
+
+10. 
 
 
 
