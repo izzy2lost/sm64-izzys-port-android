@@ -34,6 +34,7 @@ Press the capital I followed by enter each time it asks you.
 
 https://play.google.com/store/apps/details?id=me.zhanghai.android.files
 
+![image](https://github.com/izzy2fancy/sm64-izzys-port-android/assets/121840901/2896f300-3bcb-42e0-97b5-316fc8152354)
 
 
 
