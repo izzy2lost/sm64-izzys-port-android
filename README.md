@@ -138,3 +138,5 @@ Press the button in the lower right to copy the rom into the folder. Make sure o
 16. You can use the Material Files app again and install it. You'll have to grant permission to let the app install unknown applications.
 
 17. To access the data folder for external data, DynOs models and texture packs. You can use a combination of different file explorer apps. Some suggestions are the app simply called Files, FV File Explorer or CX File Explorer.
+
+*Getting Errors that stop the build? Most are from not having all the dependencies or the correct ones. You can try to redo the dependencies part. Also as mentioned before, sometimes ```make clean``` followed by just ```make``` will fix problems.*
