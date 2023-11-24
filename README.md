@@ -125,6 +125,10 @@ Press the button in the lower right to copy the rom into the folder. Make sure o
 
     ```make -j $(nproc) TOUCH_CONTROLS=1 BETTERCAMERA=1 NODRAWINGDISTANCE=1 TEXTURE_FIX=1 EXT_OPTIONS_MENU=1 EXTERNAL_DATA=1```
 
+If you are on a 32 bit phone or underpowered phone, try just make before all the options. Like below:
+
+```make TOUCH_CONTROLS=1 BETTERCAMERA=1 NODRAWINGDISTANCE=1 TEXTURE_FIX=1 EXT_OPTIONS_MENU=1 EXTERNAL_DATA=1```
+
     *Remember to disable any you don't want by changing it to 0*
 
 14. Now start the build with the commands you made above.
