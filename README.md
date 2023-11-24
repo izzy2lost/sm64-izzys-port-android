@@ -143,4 +143,8 @@ If you are on a 32 bit phone or underpowered phone, try just make before all the
 
 17. To access the data folder for external data, DynOs models and texture packs. You can use a combination of different file explorer apps. Some suggestions are the app simply called Files, FV File Explorer or CX File Explorer.
 
+    *If it runs real slow, you probably have to enable full screen and turn off v sync*
+
 *Getting Errors that stop the build? Most are from not having all the dependencies or the correct ones. You can try to redo the dependencies part. Also as mentioned before, sometimes ```make clean``` followed by just ```make``` will fix problems.*
+
+*Another problem that happens sometimes is the touchscreen will press the b button. No matter where you touch it. You can fix this by going to the .config file in the data user folder. You can set the b button to ffff ffff ffff. The touch screen b button will still work after this. It just stops the unwanted b button pushing.*
