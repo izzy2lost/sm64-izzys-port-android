@@ -33,8 +33,8 @@ Also do this as it fixes some things:
 
 ```pkg remove libglvnd```
 
-pkg install git wget make python getconf zip \
-apksigner clang binutils libglvnd-dev aapt which
+`pkg install git wget make python getconf zip \
+apksigner clang binutils libglvnd-dev aapt which`
 
 6. Clone this repo:
 
