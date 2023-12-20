@@ -48,7 +48,6 @@ ConfigWindow configWindow       = {
     .fullscreen = true,
     .exiting_fullscreen = false,
     .settings_changed = false,
-    .msaa = 0,
 };
 unsigned int configFiltering    = 1;          // 0=force nearest, 1=linear, (TODO) 2=three-point
 unsigned int configMasterVolume = MAX_VOLUME; // 0 - MAX_VOLUME
