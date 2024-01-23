@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SDL2_VERSION="2.28.1"
+SDL2_VERSION="2.26.5"
 
 pushd SDL
 
