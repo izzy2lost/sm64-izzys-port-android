@@ -45,7 +45,7 @@ NODRAWINGDISTANCE ?= 0
 # Disable texture fixes by default (helps with them purists)
 TEXTURE_FIX ?= 0
 # Enable extended options menu by default
-EXT_OPTIONS_MENU ?= 1
+EXT_OPTIONS_MENU ?= 0
 # Disable text-based save-files by default
 TEXTSAVES ?= 0
 # Load resources from external files
