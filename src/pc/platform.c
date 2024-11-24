@@ -88,52 +88,45 @@ void sys_fatal(const char *fmt, ...) {
 
 #ifdef __ANDROID__
 extern const char* SDL_AndroidGetInternalStoragePath();
-extern const char* SDL_AndroidGetExternalStoragePath();
 
 static inline bool copy_userdata(const char *userdir) {
     char oldpath[SYS_MAX_PATH] = { 0 };
     char path[SYS_MAX_PATH] = { 0 };
     bool fileFound = false;
 
+    // Set the path for the new directory in internal storage
+    const char *internalStoragePath = SDL_AndroidGetInternalStoragePath();
+    snprintf(oldpath, sizeof(oldpath), "%s/com.izzyagamer.sm64ex", internalStoragePath);
+
     // check if a save already exists in the new folder
     snprintf(path, sizeof(path), "%s/" SAVE_FILENAME, userdir);
     if (fs_sys_file_exists(path)) return false;
+
+    // check if a save exists in the old folder
     snprintf(path, sizeof(path), "%s/sm64_save_file_0.sav", userdir);
-    if (fs_sys_file_exists(path)) return false;
-    snprintf(path, sizeof(path), "%s/sm64_save_file_1.sav", userdir);
-    if (fs_sys_file_exists(path)) return false;
-    snprintf(path, sizeof(path), "%s/sm64_save_file_2.sav", userdir);
-    if (fs_sys_file_exists(path)) return false;
-    snprintf(path, sizeof(path), "%s/sm64_save_file_3.sav", userdir);
     if (fs_sys_file_exists(path)) return false;
 
     // check if a save exists in the old folder
     bool ret = false;
-    snprintf(oldpath, sizeof(oldpath), "%s/" SAVE_FILENAME, SDL_AndroidGetInternalStoragePath());
-    if (fs_sys_file_exists(oldpath)) {
-        fileFound = true;
-        snprintf(path, sizeof(path), "%s/" SAVE_FILENAME, userdir);
-        ret = fs_sys_copy_file(oldpath, path);
-    }
-    snprintf(oldpath, sizeof(oldpath), "%s/sm64_save_file_0.sav", SDL_AndroidGetInternalStoragePath());
+    snprintf(oldpath, sizeof(oldpath), "%s/sm64_save_file_0.sav", internalStoragePath);
     if (fs_sys_file_exists(oldpath)) {
         fileFound = true;
         snprintf(path, sizeof(path), "%s/sm64_save_file_0.sav", userdir);
         ret = fs_sys_copy_file(oldpath, path);
     }
-    snprintf(oldpath, sizeof(oldpath), "%s/sm64_save_file_1.sav", SDL_AndroidGetInternalStoragePath());
+    snprintf(oldpath, sizeof(oldpath), "%s/sm64_save_file_1.sav", internalStoragePath);
     if (fs_sys_file_exists(oldpath)) {
         fileFound = true;
         snprintf(path, sizeof(path), "%s/sm64_save_file_1.sav", userdir);
         ret = fs_sys_copy_file(oldpath, path);
     }
-    snprintf(oldpath, sizeof(oldpath), "%s/sm64_save_file_2.sav", SDL_AndroidGetInternalStoragePath());
+    snprintf(oldpath, sizeof(oldpath), "%s/sm64_save_file_2.sav", internalStoragePath);
     if (fs_sys_file_exists(oldpath)) {
         fileFound = true;
         snprintf(path, sizeof(path), "%s/sm64_save_file_2.sav", userdir);
         ret = fs_sys_copy_file(oldpath, path);
     }
-    snprintf(oldpath, sizeof(oldpath), "%s/sm64_save_file_3.sav", SDL_AndroidGetInternalStoragePath());
+    snprintf(oldpath, sizeof(oldpath), "%s/sm64_save_file_3.sav", internalStoragePath);
     if (fs_sys_file_exists(oldpath)) {
         fileFound = true;
         snprintf(path, sizeof(path), "%s/sm64_save_file_3.sav", userdir);
@@ -143,7 +136,7 @@ static inline bool copy_userdata(const char *userdir) {
 
     // also try to copy the config
     snprintf(path, sizeof(path), "%s/" CONFIGFILE_DEFAULT, userdir);
-    snprintf(oldpath, sizeof(oldpath), "%s/" CONFIGFILE_DEFAULT, SDL_AndroidGetInternalStoragePath());
+    snprintf(oldpath, sizeof(oldpath), "%s/" CONFIGFILE_DEFAULT, internalStoragePath);
     fs_sys_copy_file(oldpath, path);
 
     return ret;
