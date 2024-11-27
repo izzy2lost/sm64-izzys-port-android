@@ -1,140 +1,315 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
-#include <time.h>
-#include <unistd.h>
 
-#ifdef TARGET_ANDROID
-#include <sys/stat.h>
-#include "platform.h"
+#ifdef TARGET_WEB
+#include <emscripten.h>
+#include <emscripten/html5.h>
 #endif
 
 #include "sm64.h"
-#include "fs/fs.h" // Importing the file system header for managing file storage
-
-#include "pc/lua/smlua.h"
 
 #include "game/memory.h"
 #include "audio/external.h"
 
-#include "network/network.h"
-#include "lua/smlua.h"
+#include "gfx/gfx_pc.h"
+
+#include "gfx/gfx_opengl.h"
+#include "gfx/gfx_direct3d11.h"
+#include "gfx/gfx_direct3d12.h"
+
+#include "gfx/gfx_dxgi.h"
+#include "gfx/gfx_sdl.h"
 
 #include "audio/audio_api.h"
 #include "audio/audio_sdl.h"
 #include "audio/audio_null.h"
 
 #include "pc_main.h"
-#include "loading.h"
 #include "cliopts.h"
 #include "configfile.h"
 #include "controller/controller_api.h"
 #include "controller/controller_keyboard.h"
-#ifdef TOUCH_CONTROLS
 #include "controller/controller_touchscreen.h"
-#endif
+#include "fs/fs.h"
 
-#include "game/display.h" // for gGlobalTimer
 #include "game/game_init.h"
 #include "game/main.h"
-#include "game/rumble_init.h"
+#include "game/thread6.h"
 
-#include "pc/lua/utils/smlua_audio_utils.h"
-
-#include "pc/network/version.h"
-#include "pc/network/socket/domain_res.h"
-#include "pc/network/network_player.h"
-#include "pc/djui/djui.h"
-#include "pc/djui/djui_unicode.h"
-#include "pc/djui/djui_panel.h"
-#include "pc/djui/djui_panel_modlist.h"
-#include "pc/djui/djui_fps_display.h"
-#include "pc/debuglog.h"
-#include "pc/utils/misc.h"
-
-#include "pc/mods/mods.h"
-
-#include "debug_context.h"
-#include "menu/intro_geo.h"
-
-#ifdef DISCORD_SDK
-#include "pc/discord/discord.h"
+#ifdef DISCORDRPC
+#include "pc/discord/discordrpc.h"
 #endif
 
-// Define global paths
-static char base_dir[1024] = {0};
-static char save_path[1024] = {0};
-static char user_path[1024] = {0};
+OSMesg D_80339BEC;
+OSMesgQueue gSIEventMesgQueue;
 
-void initialize_paths(void) {
-#ifdef TARGET_ANDROID
-    const char *base_dir_android = get_gamedir();
-    snprintf(base_dir, sizeof(base_dir), "%s/%s", base_dir_android, FS_BASEDIR);
-    mkdir(base_dir, 0770); // Ensure the base directory exists
-    SDL_AndroidCopyAssetFilesToDir(base_dir_android); // Copy assets from APK
+s8 gResetTimer;
+s8 D_8032C648;
+s8 gDebugLevelSelect;
+s8 gShowProfiler;
+s8 gShowDebugText;
+
+s32 gRumblePakPfs;
+struct RumbleData gRumbleDataQueue[3];
+struct StructSH8031D9B0 gCurrRumbleSettings;
+
+static struct AudioAPI *audio_api;
+static struct GfxWindowManagerAPI *wm_api;
+static struct GfxRenderingAPI *rendering_api;
+
+extern void gfx_run(Gfx *commands);
+extern void thread5_game_loop(void *arg);
+extern void create_next_audio_buffer(s16 *samples, u32 num_samples);
+void game_loop_one_iteration(void);
+
+void dispatch_audio_sptask(struct SPTask *spTask) {
+}
+
+void set_vblank_handler(s32 index, struct VblankHandler *handler, OSMesgQueue *queue, OSMesg *msg) {
+}
+
+static bool inited = false;
+
+#include "game/display.h" // for gGlobalTimer
+void send_display_list(struct SPTask *spTask) {
+    if (!inited) return;
+    gfx_run((Gfx *)spTask->task.t.data_ptr);
+}
+
+#ifdef VERSION_EU
+#define SAMPLES_HIGH 656
+#define SAMPLES_LOW 640
 #else
-    snprintf(base_dir, sizeof(base_dir), "%s", FS_BASEDIR);
+#define SAMPLES_HIGH 544
+#define SAMPLES_LOW 528
 #endif
 
-    // Set save and user paths
-    snprintf(save_path, sizeof(save_path), "%s/save", base_dir);
-    snprintf(user_path, sizeof(user_path), "%s/user", base_dir);
+void produce_one_frame(void) {
+    gfx_start_frame();
 
-    mkdir(save_path, 0770);
-    mkdir(user_path, 0770);
+    const f32 master_mod = (f32)configMasterVolume / 127.0f;
+    set_sequence_player_volume(SEQ_PLAYER_LEVEL, (f32)configMusicVolume / 127.0f * master_mod);
+    set_sequence_player_volume(SEQ_PLAYER_SFX, (f32)configSfxVolume / 127.0f * master_mod);
+    set_sequence_player_volume(SEQ_PLAYER_ENV, (f32)configEnvVolume / 127.0f * master_mod);
+
+    game_loop_one_iteration();
+    thread6_rumble_loop(NULL);
+
+    int samples_left = audio_api->buffered();
+    u32 num_audio_samples = samples_left < audio_api->get_desired_buffered() ? SAMPLES_HIGH : SAMPLES_LOW;
+    //printf("Audio samples: %d %u\n", samples_left, num_audio_samples);
+    s16 audio_buffer[SAMPLES_HIGH * 2 * 2];
+    for (int i = 0; i < 2; i++) {
+        /*if (audio_cnt-- == 0) {
+            audio_cnt = 2;
+        }
+        u32 num_audio_samples = audio_cnt < 2 ? 528 : 544;*/
+        create_next_audio_buffer(audio_buffer + i * (num_audio_samples * 2), num_audio_samples);
+    }
+    //printf("Audio samples before submitting: %d\n", audio_api->buffered());
+
+    audio_api->play((u8 *)audio_buffer, 2 * num_audio_samples * 4);
+
+    gfx_end_frame();
 }
 
-void load_config_file(void) {
-    char config_file_path[1024] = {0};
-    snprintf(config_file_path, sizeof(config_file_path), "%s/config.txt", save_path);
-
-    if (access(config_file_path, F_OK) != -1) {
-        configfile_load(config_file_path); // Load existing config
-    } else {
-        configfile_save(config_file_path); // Create default config
+void audio_shutdown(void) {
+    if (audio_api) {
+        if (audio_api->shutdown) audio_api->shutdown();
+        audio_api = NULL;
     }
 }
 
-void save_game_state(const char *state) {
-    char state_file[1024] = {0};
-    snprintf(state_file, sizeof(state_file), "%s/game_state.sav", save_path);
-
-    FILE *file = fopen(state_file, "wb");
-    if (file) {
-        fwrite(state, sizeof(char), strlen(state), file);
-        fclose(file);
-    }
+void game_deinit(void) {
+#ifdef DISCORDRPC
+    discord_shutdown();
+#endif
+    configfile_save(configfile_name());
+    controller_shutdown();
+    audio_shutdown();
+    gfx_shutdown();
+    inited = false;
 }
 
-void load_game_state(char *buffer, size_t buffer_size) {
-    char state_file[1024] = {0};
-    snprintf(state_file, sizeof(state_file), "%s/game_state.sav", save_path);
+void game_exit(void) {
+    game_deinit();
+#ifndef TARGET_WEB
+    exit(0);
+#endif
+}
 
-    FILE *file = fopen(state_file, "rb");
-    if (file) {
-        fread(buffer, sizeof(char), buffer_size, file);
-        fclose(file);
+#ifdef TARGET_WEB
+static void em_main_loop(void) {
+}
+
+static void request_anim_frame(void (*func)(double time)) {
+    EM_ASM(requestAnimationFrame(function(time) {
+        dynCall("vd", $0, [time]);
+    }), func);
+}
+
+static void on_anim_frame(double time) {
+    static double target_time;
+
+    time *= 0.03; // milliseconds to frame count (33.333 ms -> 1)
+
+    if (time >= target_time + 10.0) {
+        // We are lagging 10 frames behind, probably due to coming back after inactivity,
+        // so reset, with a small margin to avoid potential jitter later.
+        target_time = time - 0.010;
     }
+
+    for (int i = 0; i < 2; i++) {
+        // If refresh rate is 15 Hz or something we might need to generate two frames
+        if (time >= target_time) {
+            produce_one_frame();
+            target_time = target_time + 1.0;
+        }
+    }
+
+    if (inited) // only continue if the init flag is still set
+        request_anim_frame(on_anim_frame);
+}
+#endif
+
+#ifdef __ANDROID__
+#include "platform.h"
+extern const char* SDL_AndroidGetInternalStoragePath();
+extern const char* SDL_AndroidGetExternalStoragePath();
+
+void move_to_new_dir(char* file) {
+    const char *basedir = SDL_AndroidGetExternalStoragePath();
+    char original_loc[SYS_MAX_PATH];
+    char new_loc[SYS_MAX_PATH];
+    snprintf(original_loc, sizeof(original_loc), "%s/%s", basedir, file);
+    snprintf(new_loc, sizeof(new_loc), "%s/%s/%s", basedir, gCLIOpts.GameDir[0] ? gCLIOpts.GameDir : FS_BASEDIR, file);
+    rename(original_loc, new_loc);
+}
+
+void move_to_new_dir_user(char* file) {
+    const char *olddir = SDL_AndroidGetInternalStoragePath();
+    const char *basedir = SDL_AndroidGetExternalStoragePath();
+    char original_loc[SYS_MAX_PATH];
+    char new_loc[SYS_MAX_PATH];
+    snprintf(original_loc, sizeof(original_loc), "%s/%s", basedir, file);
+    snprintf(new_loc, sizeof(new_loc), "%s/%s/%s", basedir, gCLIOpts.GameDir[0] ? gCLIOpts.GameDir : FS_BASEDIR, file);
+    rename(original_loc, new_loc);
+}
+#endif
+
+void main_func(void) {
+#ifdef __ANDROID__
+    //Move old stuff to new path
+    const char *basedir = SDL_AndroidGetExternalStoragePath();
+    char gamedir[SYS_MAX_PATH];
+    snprintf(gamedir, sizeof(gamedir), "%s/%s", basedir, gCLIOpts.GameDir[0] ? gCLIOpts.GameDir : FS_BASEDIR);
+    if (stat(gamedir, NULL) == -1) {
+        mkdir(gamedir, 0770);
+    }
+    move_to_new_dir("sound");
+    move_to_new_dir("gfx");
+    move_to_new_dir("base.zip");
+#else
+    const char *gamedir = gCLIOpts.GameDir[0] ? gCLIOpts.GameDir : FS_BASEDIR;
+#endif
+    const char *userpath = gCLIOpts.SavePath[0] ? gCLIOpts.SavePath : sys_user_path();
+    fs_init(sys_ropaths, gamedir, userpath);
+
+    configfile_load(configfile_name());
+
+    if (gCLIOpts.FullScreen == 1)
+        configWindow.fullscreen = true;
+    else if (gCLIOpts.FullScreen == 2)
+        configWindow.fullscreen = false;
+
+    const size_t poolsize = gCLIOpts.PoolSize ? gCLIOpts.PoolSize : DEFAULT_POOL_SIZE;
+    u64 *pool = malloc(poolsize);
+    if (!pool) sys_fatal("Could not alloc %u bytes for main pool.\n", poolsize);
+    main_pool_init(pool, pool + poolsize / sizeof(pool[0]));
+    gEffectsMemoryPool = mem_pool_init(0x4000, MEMORY_POOL_LEFT);
+
+    #if defined(WAPI_SDL1) || defined(WAPI_SDL2)
+    wm_api = &gfx_sdl;
+    #elif defined(WAPI_DXGI)
+    wm_api = &gfx_dxgi;
+    #else
+    #error No window API!
+    #endif
+
+    #if defined(RAPI_D3D11)
+    rendering_api = &gfx_direct3d11_api;
+    # define RAPI_NAME "DirectX 11"
+    #elif defined(RAPI_D3D12)
+    rendering_api = &gfx_direct3d12_api;
+    # define RAPI_NAME "DirectX 12"
+    #elif defined(RAPI_GL) || defined(RAPI_GL_LEGACY)
+    rendering_api = &gfx_opengl_api;
+    # ifdef USE_GLES
+    #  define RAPI_NAME "OpenGL ES"
+    # else
+    #  define RAPI_NAME "OpenGL"
+    # endif
+    #else
+    #error No rendering API!
+    #endif
+
+    char window_title[96] =
+    "Super Mario 64 EX (" RAPI_NAME ")"
+    #ifdef NIGHTLY
+    " nightly " GIT_HASH
+    #endif
+    ;
+
+    gfx_init(wm_api, rendering_api, window_title);
+    wm_api->set_keyboard_callbacks(keyboard_on_key_down, keyboard_on_key_up, keyboard_on_all_keys_up);
+#ifdef TOUCH_CONTROLS
+    wm_api->set_touchscreen_callbacks((void *)touch_down, (void *)touch_motion, (void *)touch_up);
+#endif
+
+    #if defined(AAPI_SDL1) || defined(AAPI_SDL2)
+    if (audio_api == NULL && audio_sdl.init()) 
+        audio_api = &audio_sdl;
+    #endif
+
+    if (audio_api == NULL) {
+        audio_api = &audio_null;
+    }
+
+    audio_init();
+    sound_init();
+
+    thread5_game_loop(NULL);
+
+    inited = true;
+
+#ifdef EXTERNAL_DATA
+    // precache data if needed
+    if (configPrecacheRes) {
+        fprintf(stdout, "precaching data\n");
+        fflush(stdout);
+        gfx_precache_textures();
+    }
+#endif
+
+#ifdef DISCORDRPC
+    discord_init();
+#endif
+
+#ifdef TARGET_WEB
+    emscripten_set_main_loop(em_main_loop, 0, 0);
+    request_anim_frame(on_anim_frame);
+#else
+    while (true) {
+        wm_api->main_loop(produce_one_frame);
+#ifdef DISCORDRPC
+        discord_update_rich_presence();
+#endif
+    }
+#endif
 }
 
 int main(int argc, char *argv[]) {
-    initialize_paths();
-
-    printf("Base Directory: %s\n", base_dir);
-    printf("Save Path: %s\n", save_path);
-    printf("User Path: %s\n", user_path);
-
-    // Load config file
-    load_config_file();
-
-    // Example of saving and loading game state
-    const char *example_state = "example_game_state_data";
-    save_game_state(example_state);
-
-    char loaded_state[1024] = {0};
-    load_game_state(loaded_state, sizeof(loaded_state));
-
-    printf("Loaded State: %s\n", loaded_state);
-
+    parse_cli_opts(argc, argv);
+    main_func();
     return 0;
 }
